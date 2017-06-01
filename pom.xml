@@ -38,12 +38,12 @@
             </roles>
         </developer>
     </developers>
-    <distributionManagement>
-        <repository>
-            <id>bintray</id>
-            <url>https://api.bintray.com/maven/yanaga/maven/querydsl-args</url>
-        </repository>
-    </distributionManagement>
+    <!--<distributionManagement>-->
+        <!--<repository>-->
+            <!--<id>bintray</id>-->
+            <!--<url>https://api.bintray.com/maven/yanaga/maven/querydsl-args</url>-->
+        <!--</repository>-->
+    <!--</distributionManagement>-->
     <modules>
         <module>querydsl-args-core</module>
         <module>querydsl-args-jsf</module>
@@ -64,7 +64,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <querydsl.version>3.6.1</querydsl.version>
+        <querydsl.version>4.1.4</querydsl.version>
     </properties>
     <dependencies>
         <dependency>

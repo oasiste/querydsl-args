@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.NumberExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -59,7 +59,8 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneInteger()).isEqualTo(123);
 	}
 
@@ -68,7 +69,7 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneInteger()).isEqualTo(123);
 	}
 
@@ -77,7 +78,7 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(200);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getAnotherInteger()).isEqualTo(321);
 	}
 
@@ -86,7 +87,7 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(400);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 
@@ -95,7 +96,7 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(222);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
@@ -103,8 +104,9 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 	public void testAppendLoeCustomNumberTypeAndInteger() {
 		SingleIntegerArgument argument = SingleIntegerArgument.of(250);
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.intValue(), QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.intValue(),
+				QPerson.person.anotherInteger);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
@@ -113,7 +115,7 @@ public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpring
 		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 

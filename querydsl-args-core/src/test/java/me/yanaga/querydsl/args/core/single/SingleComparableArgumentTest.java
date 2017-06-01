@@ -9,9 +9,9 @@ package me.yanaga.querydsl.args.core.single;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomComparableType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -58,7 +58,7 @@ public class SingleComparableArgumentTest extends AbstractTransactionalTestNGSpr
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomComparableType);
 		SingleArgument.of(value).append(builder, QPerson.person.oneCustomComparableType);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneCustomComparableType()).isEqualTo(value);
 	}
 
@@ -67,7 +67,7 @@ public class SingleComparableArgumentTest extends AbstractTransactionalTestNGSpr
 		SingleComparableArgument<CustomComparableType> argument = SingleComparableArgument.of(CustomComparableType.of(LocalDate.of(2015, 3, 30)));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomComparableType, QPerson.person.anotherCustomComparableType);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 

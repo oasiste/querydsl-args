@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -55,7 +55,7 @@ public class SingleLocalDateTimeArgumentTest extends AbstractTransactionalTestNG
 		SingleLocalDateTimeArgument argument = SingleLocalDateTimeArgument.of(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneLocalDateTime);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNotNull();
 		assertThat(result.getOneLocalDateTime()).isEqualTo((LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0)));
 	}

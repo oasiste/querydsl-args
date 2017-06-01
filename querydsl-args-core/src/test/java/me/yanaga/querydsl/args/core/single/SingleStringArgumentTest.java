@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -53,7 +53,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 	public void testAppendFunction() {
 		BooleanBuilder builder = new BooleanBuilder();
 		SingleArgument.of("cd").append(builder, QPerson.person.oneString::containsIgnoreCase);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneString()).isEqualTo("abcdef");
 	}
 
@@ -62,7 +62,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 		SingleStringArgument argument = SingleStringArgument.of("cd");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneString()).isEqualTo("abcdef");
 	}
 
@@ -71,7 +71,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 		SingleStringArgument argument = SingleStringArgument.of("yanaga");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 
@@ -80,7 +80,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 		SingleStringArgument argument = SingleStringArgument.of("a");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
 	}
 
@@ -89,7 +89,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 		SingleStringArgument argument = SingleStringArgument.of("a");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
 	}
 
@@ -98,7 +98,7 @@ public class SingleStringArgumentTest extends AbstractTransactionalTestNGSpringC
 		SingleStringArgument argument = SingleStringArgument.of("z");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
 	}
 

@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.NumberExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -59,7 +59,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(123L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneLong);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneLong()).isEqualTo(123L);
 	}
 
@@ -68,7 +68,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(123L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneLong, QPerson.person.anotherLong);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getOneLong()).isEqualTo(123L);
 	}
 
@@ -77,7 +77,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(200L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneLong, QPerson.person.anotherLong);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result.getAnotherLong()).isEqualTo(321);
 	}
 
@@ -86,7 +86,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(400L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneLong, QPerson.person.anotherLong);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 
@@ -95,7 +95,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(222L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.longValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
@@ -104,7 +104,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(250L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.longValue(), QPerson.person.anotherLong);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
@@ -113,7 +113,7 @@ public class SingleLongArgumentTest extends AbstractTransactionalTestNGSpringCon
 		SingleLongArgument argument = SingleLongArgument.of(123L);
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.longValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 

@@ -20,8 +20,10 @@ package me.yanaga.querydsl.args.core.stream;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
+
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import java.util.function.Function;
 import java.util.stream.Collector;

@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -61,7 +61,7 @@ public class MixedArgumentTest extends AbstractTransactionalTestNGSpringContextT
 		BooleanBuilder builder = new BooleanBuilder();
 		integerArgument.append(builder, QPerson.person.oneInteger);
 		stringArgument.append(builder, QPerson.person.oneString);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		Person result = new JPAQuery<Person>(entityManager).from(QPerson.person).where(builder).fetchOne();
 		assertThat(result).isNull();
 	}
 

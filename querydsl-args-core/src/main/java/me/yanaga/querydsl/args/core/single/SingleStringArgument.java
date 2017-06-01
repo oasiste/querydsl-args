@@ -20,10 +20,11 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.ComparableExpressionBase;
-import com.mysema.query.types.expr.StringExpression;
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.ComparableExpressionBase;
+import com.querydsl.core.types.dsl.StringExpression;
 import me.yanaga.querydsl.args.core.Arguments;
 
 import java.util.function.BiFunction;
@@ -60,18 +61,14 @@ public class SingleStringArgument extends AbstractSingleArgument<StringExpressio
 			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		Arguments.append(builder, value, operation, path.stringValue(), Stream.of(paths)
-				.map(ComparableExpressionBase::stringValue)
-				.toArray(StringExpression[]::new));
+		Arguments.append(builder, value, operation, path, paths);
 	}
 
 	@SafeVarargs
 	public final void append(BooleanBuilder builder,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		Arguments.append(builder, value, getDefaultOperation(), path.stringValue(), Stream.of(paths)
-				.map(ComparableExpressionBase::stringValue)
-				.toArray(StringExpression[]::new));
+		Arguments.append(builder, value, getDefaultOperation(), path, paths);
 	}
 
 	@Override

@@ -20,7 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.DateTimeExpression;
+
+import com.querydsl.core.types.dsl.DateTimeExpression;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

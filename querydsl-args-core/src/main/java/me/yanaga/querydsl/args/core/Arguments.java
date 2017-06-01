@@ -20,9 +20,12 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.SimpleExpression;
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.ComparableExpressionBase;
+import com.querydsl.core.types.dsl.SimpleExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
@@ -50,4 +53,16 @@ public class Arguments {
 				.collect(toBooleanBuilder()));
 	}
 
+	public static void append(BooleanBuilder builder, String value,
+			BiFunction<StringExpression, String, BooleanExpression> defaultOperation,
+			ComparableExpressionBase<? extends Comparable<?>> path,
+			ComparableExpressionBase<? extends Comparable<?>>[] paths) {
+		checkNotNull(builder);
+		checkNotNull(defaultOperation);
+		checkNotNull(path);
+		builder.and(Stream.concat(Stream.of(path), Stream.of(paths))
+				.filter(e -> value != null && e != null && e instanceof StringExpression)
+				.map(e -> defaultOperation.apply((StringExpression) e, value))
+				.collect(toBooleanBuilder()));
+	}
 }
